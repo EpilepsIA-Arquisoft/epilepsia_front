@@ -24,6 +24,7 @@ import { ResultadoModule } from './resultado/resultado.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthModule } from '@auth0/auth0-angular';
 
 @NgModule({
   declarations: [	
@@ -50,7 +51,14 @@ import { CommonModule } from '@angular/common';
     HistorialRoutes,
     ExamenRoutes,
     HomeRoutes,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AuthModule.forRoot({
+      domain: 'dev-qox2s5e2aky6aehb.us.auth0.com',
+      clientId: 'u8GVzzzDieeY1kKnhCUnVx0IT0xYXOn8',
+      authorizationParams: {
+        redirect_uri: window.location.origin + '/callback',
+      },
+    }),
   ],
   providers: [provideClientHydration()],
   bootstrap: [AppComponent]
