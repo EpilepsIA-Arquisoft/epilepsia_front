@@ -56,7 +56,7 @@ import { AuthModule } from '@auth0/auth0-angular';
       domain: 'dev-qox2s5e2aky6aehb.us.auth0.com',
       clientId: 'u8GVzzzDieeY1kKnhCUnVx0IT0xYXOn8',
       authorizationParams: {
-        redirect_uri: window.location.origin + '/callback',
+        redirect_uri: window.location.origin + '/home',
       },
     }),
   ],

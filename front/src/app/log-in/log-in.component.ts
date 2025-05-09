@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MedicoModule } from "../medico/medico.module";
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-log-in',
@@ -22,14 +23,19 @@ export class LogInComponent implements OnInit {
   showModal: boolean = false;
   showMenu: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private auth: AuthService) { }
 
   ngOnInit() {
   }
 
-  log_in_auth(){
-    this.router.navigate(['/home']);
+  login_auth(){
+    this.auth.loginWithRedirect({
+      authorizationParams: {
+        prompt: 'login'  // Esto forzará a mostrar el login aunque haya sesión activa
+      }
+    });
   }
+
 
   @ViewChild('formContainer') formContainer!: ElementRef;
   log_in() {

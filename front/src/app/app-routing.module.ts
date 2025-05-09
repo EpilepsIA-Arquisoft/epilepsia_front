@@ -11,7 +11,6 @@ const routes: Routes = [
   { path: 'historiales', loadChildren: () => import('./historial/historial.module').then(m => m.HistorialModule)},
   { path: 'examenes', loadChildren: () => import('./examen/examen.module').then(m => m.ExamenModule)},
   { path: 'resultados', loadChildren: () => import('./resultado/resultado.module').then(m => m.ResultadoModule)},
-  { path: 'callback', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
 ];
 
 @NgModule({
