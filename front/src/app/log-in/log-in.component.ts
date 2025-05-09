@@ -27,6 +27,10 @@ export class LogInComponent implements OnInit {
   ngOnInit() {
   }
 
+  log_in_auth(){
+    this.router.navigate(['/home']);
+  }
+
   @ViewChild('formContainer') formContainer!: ElementRef;
   log_in() {
     const inputs = this.formContainer.nativeElement.querySelectorAll('input');
