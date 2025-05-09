@@ -21,6 +21,7 @@
     <p><strong>{{ examen.id }}</strong></p>
     <p>{{ examen.paciente_id }}</p>
     <p>{{ examen.fecha | date }}</p>
+    <button (click)="mandarASolicitud(examen.id)" class="btn btn-secondary">Mandar a analizar</button>
   </div>
 }
 </div>
