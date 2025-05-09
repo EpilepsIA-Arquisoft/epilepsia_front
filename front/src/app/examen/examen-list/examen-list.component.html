@@ -16,11 +16,11 @@
     <h5>Última actualización</h5>
   </div>
   <div class="line"></div>
-  @for (examen of examenes; track examen.id_examen){
-    <div class="element">
-      <p><strong> {{examen.id_examen}} </strong></p>
-      <p>{{examen.id_paciente}}</p>
-      <p>{{examen.fecha_realizacion}}</p>
-    </div>
-  }
+  @for (examen of examenes; track examen.id) {
+  <div class="element">
+    <p><strong>{{ examen.id }}</strong></p>
+    <p>{{ examen.paciente_id }}</p>
+    <p>{{ examen.fecha | date }}</p>
+  </div>
+}
 </div>
