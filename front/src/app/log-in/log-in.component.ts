@@ -1,65 +1,53 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MedicoModule } from "../medico/medico.module";
-import { AuthService } from '@auth0/auth0-angular';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-@Component({
-  selector: 'app-log-in',
-  templateUrl: './log-in.component.html',
-  styleUrls: ['./log-in.component.css']
+@Injectable({
+  providedIn: 'root'
 })
-export class LogInComponent implements OnInit {
+export class AuthService {
+  private apiUrl = 'http://<tu_backend_ip>:<puerto>/';  // Actualiza aquí
   showModal: boolean = false;
   showMenu: boolean = false;
+  constructor(private http: HttpClient) { }
 
-  constructor(private router: Router, private auth: AuthService) { }
+  login(id: string, password: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('password', password);
 
-  ngOnInit() {
+    return this.http.post(`${this.apiUrl}user/login/`, formData);
   }
 
-  login_auth(){
-    this.auth.loginWithRedirect({
-      authorizationParams: {
-        prompt: 'login'  // Esto forzará a mostrar el login aunque haya sesión activa
-      }
+  getCurrentUser(): Observable<any> {
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
+
+    return this.http.get(`${this.apiUrl}user/me/`, { headers });
   }
 
-
-  @ViewChild('formContainer') formContainer!: ElementRef;
-  log_in() {
-    const inputs = this.formContainer.nativeElement.querySelectorAll('input');
-    const datos: any = {};
-
-    inputs.forEach((input: HTMLInputElement) => {
-      datos[input.id] = input.value;
-      input.value = "";
+  logout(refreshToken: string): Observable<any> {
+    const token = localStorage.getItem('access_token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
 
-    const credentials = { id: datos.username, password: datos.password };
+    const formData = new FormData();
+    formData.append('refresh', refreshToken);
 
-    this.authService.login(credentials).subscribe({
-      next: (response) => {
-        localStorage.setItem('access_token', response.access);
-        localStorage.setItem('refresh_token', response.refresh);
-        console.log('Login exitoso');
-        this.router.navigate(['/home']);
-      },
-      error: (error) => {
-        console.error('Error de login', error);
-        this.showModal = true;
-      }
-    });
+    return this.http.post(`${this.apiUrl}user/logout/`, formData, { headers });
   }
-
   closeModal() {
     this.showModal = false;
   }
-
+  
   toggleMenu() {
     this.showMenu = !this.showMenu;
     this.closeModal();
   }
 }
+
+
+
