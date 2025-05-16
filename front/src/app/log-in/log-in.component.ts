@@ -1,37 +1,27 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { LogoComponent } from '../recurrent-modules/logo/logo.component';
-import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { MedicoModule } from "../medico/medico.module";
+import { AuthService } from '../service/auth.service';
+
 
 @Component({
   selector: 'app-log-in',
   templateUrl: './log-in.component.html',
-  styleUrls: ['./log-in.component.css'],
-  imports: [
-    LogoComponent, 
-    RouterModule, 
-    FormsModule, 
-    CommonModule, 
-    MedicoModule, 
-    ]
+  styleUrls: ['./log-in.component.css']
 })
 export class LogInComponent implements OnInit {
   showModal: boolean = false;
   showMenu: boolean = false;
 
-  constructor(private router: Router) { }
+  @ViewChild('formContainer') formContainer!: ElementRef;
 
-  ngOnInit() {
-  }
+  constructor(private router: Router, private authService: AuthService) { }
 
-  log_in_auth(){
+  ngOnInit() {}
+
+  log_in_auth() {
     this.router.navigate(['/home']);
   }
 
-  @ViewChild('formContainer') formContainer!: ElementRef;
   log_in() {
     const inputs = this.formContainer.nativeElement.querySelectorAll('input');
     const datos: any = {};
@@ -41,23 +31,28 @@ export class LogInComponent implements OnInit {
       input.value = "";
     });
 
-    const usuarioValido = "admin";
-    const contraseñaValida = "1234";
+    const credentials = { id: datos.username, password: datos.password };
 
-    if (datos.username === usuarioValido && datos.password === contraseñaValida) {
-      this.router.navigate(['/home']);
-    } else {
-      this.showModal = true;
-    }
+    this.authService.login(credentials).subscribe({
+      next: (response) => {
+        localStorage.setItem('access_token', response.access);
+        localStorage.setItem('refresh_token', response.refresh);
+        console.log('Login exitoso');
+        this.router.navigate(['/home']);
+      },
+      error: (error) => {
+        console.error('Error de login', error);
+        this.showModal = true;
+      }
+    });
   }
 
-  closeModal(){
+  closeModal() {
     this.showModal = false;
   }
 
   toggleMenu() {
-    this.showMenu = !this.showMenu; // Alterna la visibilidad del menú
+    this.showMenu = !this.showMenu;
     this.closeModal();
   }
-
 }
