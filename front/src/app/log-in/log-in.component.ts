@@ -1,53 +1,70 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule, NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
-@Injectable({
-  providedIn: 'root'
+import { AuthService } from '../service/auth.service';
+import { LogoComponent } from '../recurrent-modules/logo/logo.component';
+import { SignUpComponent } from '../medico/sign-up/sign-up.component';
+
+
+@Component({
+  selector: 'app-log-in',
+  standalone: true,  // ✅ Esto hace que se importe, no se declare en módulo
+  imports: [
+    CommonModule,
+  FormsModule,
+  LogoComponent,
+  SignUpComponent,
+  NgClass // <- si usas <app-sign-up>
+  ],
+  templateUrl: './log-in.component.html',
+  styleUrls: ['./log-in.component.css']
 })
-export class AuthService {
-  private apiUrl = 'http://<tu_backend_ip>:<puerto>/';  // Actualiza aquí
+export class LogInComponent implements OnInit {
   showModal: boolean = false;
   showMenu: boolean = false;
-  constructor(private http: HttpClient) { }
 
-  login(id: string, password: string): Observable<any> {
-    const formData = new FormData();
-    formData.append('id', id);
-    formData.append('password', password);
+  @ViewChild('formContainer') formContainer!: ElementRef;
 
-    return this.http.post(`${this.apiUrl}user/login/`, formData);
-  }
+  constructor(private router: Router, private authService: AuthService) {}
 
-  getCurrentUser(): Observable<any> {
-    const token = localStorage.getItem('access_token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
+  ngOnInit() {}
 
-    return this.http.get(`${this.apiUrl}user/me/`, { headers });
-  }
+  log_in() {
+  const inputs = this.formContainer.nativeElement.querySelectorAll('input');
+  const datos: any = {};
 
-  logout(refreshToken: string): Observable<any> {
-    const token = localStorage.getItem('access_token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
+  inputs.forEach((input: HTMLInputElement) => {
+    datos[input.id] = input.value;
+  });
 
-    const formData = new FormData();
-    formData.append('refresh', refreshToken);
+  const credentials = { id: datos.username, password: datos.password };
 
-    return this.http.post(`${this.apiUrl}user/logout/`, formData, { headers });
-  }
+  this.authService.login(credentials.id, credentials.password).subscribe({
+    next: (response) => {
+  console.log('✅ LOGIN OK', response);
+
+  localStorage.setItem('access_token', response.access);
+  localStorage.setItem('refresh_token', response.refresh);
+  console.log('Login exitoso');
+  this.router.navigate(['/home']);
+}
+,
+    error: (error) => {
+      console.error('Error de login', error);
+      this.showModal = true;
+    }
+  });
+}
+
+
   closeModal() {
     this.showModal = false;
   }
-  
+
   toggleMenu() {
     this.showMenu = !this.showMenu;
     this.closeModal();
   }
 }
-
-
-

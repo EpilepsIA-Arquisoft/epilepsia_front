@@ -1,21 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
 import { LogInComponent } from './log-in.component';
 import { LogInRoutes } from './log-in.routing';
 import { LogoModule } from '../recurrent-modules/logo/logo.module';
-import { RouterModule } from '@angular/router';
+
+
 
 @NgModule({
+  declarations: [],  // ✅ Aquí va el componente
   imports: [
     CommonModule,
+    FormsModule,
+    RouterModule,
     LogInComponent,
     LogoModule,
-    RouterModule,
-    LogInRoutes
+    LogInRoutes,
   ],
-  declarations: [],
-  exports: [
-    LogInComponent
-  ]
+  exports: [LogInComponent]  // ✅ Solo si lo necesitas fuera
 })
 export class LogInModule { }
