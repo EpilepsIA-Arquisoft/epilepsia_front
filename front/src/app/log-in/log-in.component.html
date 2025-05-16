@@ -13,7 +13,7 @@
         </div>
         <app-logo></app-logo>
         <div class="link-log-in">
-          <a href="/login/auth0"><strong> > INICIAR SESIÓN < </strong></a>
+          <a (click)="login_auth()"><strong> > INICIAR SESIÓN < </strong></a>
         </div>
       </div>
     </div>
@@ -26,7 +26,7 @@
       <div class="login-form">
         <div #formContainer class="card">
           <div class="card-title">
-            <p (click)="log_in_auth()"><strong> > INICIAR SESIÓN < </strong><p>
+            <p><strong> > INICIAR SESIÓN < </strong><p>
           </div>
           <div class="field">
             <input type="text" id="username" placeholder="...">
