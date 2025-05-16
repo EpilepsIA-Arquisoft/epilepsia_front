@@ -1,41 +1,28 @@
-<div class="screen">
-  <app-navbar></app-navbar>
-  <div class="shadow-title-bar"></div>
-  <div class="title-bar">
-    <h1><div class="line"></div><strong> RESULTADOS </strong><div class="line"></div></h1>
-  </div>
-
-  <div class="main-content">
-    <div class="column">
-      <div class="row mb-3">
-        <div class="col">
-          <label for="resultado">ID Resultado</label>
-          <input type="text" id="resultado" [(ngModel)]="idResultado" class="form-control" placeholder="...">
-        </div>
-        <div class="col">
-          <label for="examen">ID Examen</label>
-          <input type="text" id="examen" [(ngModel)]="idExamen" class="form-control" placeholder="...">
-        </div>
-        <div class="col d-flex align-items-end">
-          <button (click)="lookfor()" type="button" class="btn btn-primary">BUSCAR</button>
-        </div>
-      </div>
-
-      <div class="row fw-bold mb-2 text-center">
-        <div class="col">ID Resultado</div>
-        <div class="col">ID Examen</div>
-        <div class="col">Última actualización</div>
-        <div class="col">Resultado</div>
-      </div>
-
-      <div *ngFor="let resultado of resultadosFiltrados; let i = index; trackBy: trackById"
-           class="row text-center py-2"
-           [ngStyle]="{ 'background-color': i % 2 === 0 ? '#fdd0e1' : '#fee3ec' }">
-        <div class="col fw-bold">{{ resultado.id }}</div>
-        <div class="col">{{ resultado.examen ?? '—' }}</div>
-        <div class="col">{{ resultado.fecha }}</div>
-        <div class="col">{{ resultado.respuesta }}</div>
-      </div>
+<div class="main">
+  <div class="row">
+    <div class="field">
+      <label for="resultado">ID Resultado</label>
+      <input type="text" id="resultado" [(ngModel)]="idResultado" class="form-control" placeholder="...">
     </div>
+    <div class="field">
+      <label for="examen">ID Examen</label>
+      <input type="text" id="examen" [(ngModel)]="idExamen" class="form-control" placeholder="...">
+    </div>
+    <button (click)="lookfor()" type="button" class="btn btn-primary">BUSCAR</button>
   </div>
+
+  <div class="title">
+    <h5>ID Resultado</h5>
+    <h5>ID Examen</h5>
+    <h5>Resultado</h5>
+  </div>
+  <div class="line"></div>
+
+  @for (resultado of resultadosFiltrados; track resultado.id) {
+    <div class="element">
+      <p><strong>{{ resultado.id }}</strong></p>
+      <p>{{ resultado.examen ?? '—' }}</p>
+      <p>{{ resultado.respuesta }}</p>
+    </div>
+  }
 </div>

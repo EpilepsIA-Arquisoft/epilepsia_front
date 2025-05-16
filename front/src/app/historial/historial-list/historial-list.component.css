@@ -48,8 +48,14 @@
     grid-template-columns: repeat(3, 3.5fr);
     gap: 10px;
     width: 100%;
-    background-color: #2a7b9d17;
+    background-color: var(--primary-opaque);
     border-radius: 10px;
     margin-bottom: 5px;
     margin-top: 5px;
+}
+
+.element:hover{
+    background-color: var(--primary-dark);
+    color: white;
+    cursor: pointer;
 }

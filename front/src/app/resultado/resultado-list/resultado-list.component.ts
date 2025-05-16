@@ -8,7 +8,7 @@ import { NavbarComponent } from '../../recurrent-modules/navbar/navbar.component
 @Component({
   selector: 'app-resultado-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent], // ✅ IMPORTA AQUI
+  imports: [CommonModule, FormsModule], // ✅ IMPORTA AQUI
   templateUrl: './resultado-list.component.html',
   styleUrls: ['./resultado-list.component.css']
 })

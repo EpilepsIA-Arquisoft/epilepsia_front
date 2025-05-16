@@ -4,7 +4,7 @@ import { AuthGuard } from '../service/AuthGuard';
 
 
 const routes: Routes = [
-  { path: '', component: ResultadoComponent, canActivate: [AuthGuard] },  // <- Bloquea acceso
+  { path: '', component: ResultadoComponent, canActivate: [AuthGuard] },  // Bloquea acceso -> canActivate: [AuthGuard]
 ];
 
 export const ResultadoRoutes = RouterModule.forChild(routes);

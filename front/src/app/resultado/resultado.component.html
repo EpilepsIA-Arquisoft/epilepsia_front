@@ -12,42 +12,7 @@
 
   <div class="main-content">
     <div class="column">
-      <!-- Filtros -->
-      <div class="row mb-3 justify-content-start">
-        <div class="col">
-          <label for="resultado">ID Resultado</label>
-          <input type="text" id="resultado" [(ngModel)]="idResultado" class="form-control" placeholder="...">
-        </div>
-        <div class="col">
-          <label for="examen">ID Examen</label>
-          <input type="text" id="examen" [(ngModel)]="idExamen" class="form-control" placeholder="...">
-        </div>
-        <div class="col d-flex align-items-end">
-          <button (click)="lookfor()" type="button" class="btn btn-primary">BUSCAR</button>
-        </div>
-      </div>
-
-      <!-- Tabla -->
-      <div class="table-responsive">
-        <table class="table table-bordered text-center">
-          <thead class="table-light">
-            <tr>
-              <th>ID Resultado</th>
-              <th>ID Examen</th>
-              <th>Última actualización</th>
-              <th>Resultado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let resultado of resultados; let i = index" [ngStyle]="{ 'background-color': i % 2 === 0 ? '#fdd0e1' : '#fee3ec' }">
-              <td class="fw-bold">{{ resultado.id }}</td>
-              <td>{{ resultado.examen ?? '—' }}</td>
-              <td>{{ resultado.fecha }}</td>
-              <td>{{ resultado.respuesta }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <app-resultado-list></app-resultado-list>
     </div>
   </div>
 </div>
